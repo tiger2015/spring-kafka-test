@@ -11,6 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.BatchMessageListener;
@@ -130,9 +132,18 @@ public class ApplicationConfig {
         ConcurrentMessageListenerContainer<String, String> container =
                 new ConcurrentMessageListenerContainer<>(consumerFactory(), containerProperties);
         container.setConcurrency(8);
+
         return container;
 
     }
 
-
+    @Bean
+    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> containerFactory() {
+        ConcurrentKafkaListenerContainerFactory containerFactory = new ConcurrentKafkaListenerContainerFactory<>();
+        containerFactory.setConsumerFactory(consumerFactory());
+        containerFactory.setBatchListener(true);
+        containerFactory.setConcurrency(8);
+        containerFactory.afterPropertiesSet();
+        return containerFactory;
+    }
 }

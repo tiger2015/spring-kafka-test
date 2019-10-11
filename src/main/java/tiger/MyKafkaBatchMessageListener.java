@@ -23,7 +23,6 @@ import java.util.Map;
 public class MyKafkaBatchMessageListener implements BatchMessageListener<String, String>, ConsumerSeekAware {
     @Override
     public void onMessage(List<ConsumerRecord<String, String>> data) {
-        //log.info("receive size:" + data.size());
         for (ConsumerRecord<String, String> record : data) {
             if (record.key().equals("392")) {
                 log.info("message:" + record.value() + ", partition:" + record.partition() + ",offset:" + record.offset());
@@ -38,13 +37,16 @@ public class MyKafkaBatchMessageListener implements BatchMessageListener<String,
 
     @Override
     public void onPartitionsAssigned(Map<TopicPartition, Long> assignments, ConsumerSeekCallback callback) {
-        assignments.forEach((partition, offset) -> {
-            callback.seekToEnd(partition.topic(), partition.partition());
+
+        assignments.forEach((k, v) -> {
+            callback.seekToEnd(k.topic(), k.partition());
         });
+
     }
 
     @Override
     public void onIdleContainer(Map<TopicPartition, Long> assignments, ConsumerSeekCallback callback) {
 
     }
+
 }

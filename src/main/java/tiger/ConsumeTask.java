@@ -30,7 +30,7 @@ public class ConsumeTask {
     @Qualifier("consumer")
     private Consumer consumer;
 
-    @Scheduled(fixedRate = 100)
+    //@Scheduled(fixedRate = 100)
     public void consume() {
         ConsumerRecords<String, String> records = consumer.poll(Duration.ZERO);
         for (ConsumerRecord<String, String> record : records) {

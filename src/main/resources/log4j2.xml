@@ -12,15 +12,15 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="org.apache.kafka" level="info">
+        <Logger name="org.apache.kafka" level="warn">
             <Appender-Ref ref="Console"/>
         </Logger>
-        <Logger name="org.springframework.kafka" level="info">
+        <Logger name="org.springframework.kafka" level="warn">
             <Appender-Ref ref="Console"/>
         </Logger>
         <Root level="info">
             <Appender-Ref ref="Console"/>
-            <Appender-Ref ref="RollingFile"/>
+            <!--<Appender-Ref ref="RollingFile"/>-->
         </Root>
     </Loggers>
 </Configuration>
